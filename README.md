@@ -1,2 +1,3 @@
 # NameCard
-Spring Data Elasticsearch
+A small spring boot application with Spring Data (Elasticsearch).
+
