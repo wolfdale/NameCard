@@ -1,5 +1,7 @@
-package com.micro.search.namecard;
+package com.micro.namecard.api;
 
+import com.micro.namecard.dto.NameCardDTO;
+import com.micro.namecard.utils.NameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -14,7 +16,6 @@ import javax.websocket.server.PathParam;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/")

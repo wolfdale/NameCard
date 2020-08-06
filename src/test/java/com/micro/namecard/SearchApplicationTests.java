@@ -1,4 +1,4 @@
-package com.micro.search;
+package com.micro.namecard;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

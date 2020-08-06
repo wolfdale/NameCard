@@ -1,9 +1,8 @@
-package com.micro.search.namecard;
+package com.micro.namecard.utils;
 
+import com.micro.namecard.dto.NameCardDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
