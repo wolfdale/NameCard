@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.micro</groupId>
-	<artifactId>search</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>search</name>
-	<description>Elastic Search integration</description>
+	<artifactId>namecard</artifactId>
+	<version>1.0v</version>
+	<name>Namecard</name>
+	<description>Name card service to generate random cards.</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -26,6 +26,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<version>2.3.0.RELEASE</version>
 		</dependency>
 
 		<dependency>

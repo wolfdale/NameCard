@@ -1,4 +1,4 @@
-package com.micro.search.namecard;
+package com.micro.namecard.dto;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -29,7 +29,7 @@ public class NameCardDTO {
         this.age = age;
     }
 
-    NameCardDTO(String name, String age) {
+    public NameCardDTO(String name, String age) {
         this.name = name;
         this.age = age;
     }
