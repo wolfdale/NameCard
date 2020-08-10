@@ -11,8 +11,11 @@ import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfig
 @Configuration
 public class EsConfiguration extends AbstractElasticsearchConfiguration {
 
-    @Value(value="${es.bootstrap.server}")
+    @Value(value = "${es.bootstrap.server}")
     private String elasticBootServer;
+
+    @Value(value = "${es.index.name}")
+    private String elasticSearchIndex;
 
     /**
      * Elastic Search Client Configuration and Creation.
@@ -25,5 +28,9 @@ public class EsConfiguration extends AbstractElasticsearchConfiguration {
                 .build();
 
         return RestClients.create(clientConfiguration).rest();
+    }
+
+    public String getElasticSearchIndex() {
+        return this.elasticSearchIndex;
     }
 }
