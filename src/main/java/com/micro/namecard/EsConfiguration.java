@@ -17,6 +17,12 @@ public class EsConfiguration extends AbstractElasticsearchConfiguration {
     @Value(value = "${es.index.name}")
     private String elasticSearchIndex;
 
+    @Value(value = "${es.job.index.name}")
+    private String elasticSearchJobIndex;
+
+    @Value(value = "${data.generator.limit}")
+    private int syncLimit;
+
     /**
      * Elastic Search Client Configuration and Creation.
      */
@@ -32,5 +38,13 @@ public class EsConfiguration extends AbstractElasticsearchConfiguration {
 
     public String getElasticSearchIndex() {
         return this.elasticSearchIndex;
+    }
+
+    public int getSyncLimit() {
+        return this.syncLimit;
+    }
+
+    public String getElasticSearchJobIndex(){
+        return this.elasticSearchJobIndex;
     }
 }
