@@ -18,7 +18,7 @@ public class GeneratorUtility {
     /**
      * Builds query for bulk Indexing of name card
      */
-    public List<IndexQuery> buildBulkIndexingQueries(int times) {
+    public List<IndexQuery> buildBulkIndexingQueries(long times) {
         List<IndexQuery> queries = new LinkedList<>();
 
         for (int i = 0; i < times; i++) {

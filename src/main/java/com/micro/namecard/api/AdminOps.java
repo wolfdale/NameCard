@@ -1,21 +1,19 @@
 package com.micro.namecard.api;
 
+import com.micro.namecard.ApplicationConfiguration;
 import com.micro.namecard.EsConfiguration;
 import com.micro.namecard.core.AdminAsyncImpl;
 import com.micro.namecard.core.AdminImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.SecureRandom;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/admin")
@@ -32,11 +30,7 @@ public class AdminOps {
     EsConfiguration esConfiguration;
 
     @Autowired
-    ElasticsearchOperations elasticsearchOperations;
-
-    @Autowired
-    @Qualifier("taskExecutor")
-    TaskExecutor taskExecutor;
+    ApplicationConfiguration appConfig;
 
     /**
      * Load init data into ES
@@ -45,21 +39,14 @@ public class AdminOps {
      * @return IDs of Document Created
      */
     @PutMapping("/init/{times}")
-    public ResponseEntity elasticSearchInitData(@PathVariable("times") Integer times) {
-        if (esConfiguration.getSyncLimit() > times) {
+    public ResponseEntity elasticSearchInitData(@PathVariable("times") Integer times) throws IOException {
+        if (appConfig.getSyncLimit() > times) {
             return ResponseEntity.ok().body(adminOps.saveMultipleRandomNameCard(times));
-        }
-        else {
-            String jobId = createJobId();
-            taskExecutor.execute(new AdminAsyncImpl(jobId, times, elasticsearchOperations));
-            return ResponseEntity.ok().body(jobId);
+        } else {
+            return ResponseEntity.ok().body(asyncAdminOps.loadDataAsync(times));
         }
 
     }
 
-    private String createJobId() {
-        SecureRandom random = new SecureRandom();
-        int num = random.nextInt(100000);
-        return String.format("%05d", num);
-    }
+
 }

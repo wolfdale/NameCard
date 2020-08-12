@@ -10,6 +10,7 @@ import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Component
@@ -25,9 +26,9 @@ public class AdminImpl {
     @Autowired
     private EsConfiguration esConfiguration;
 
-    public List<String> saveMultipleRandomNameCard(int times) {
+    public List<String> saveMultipleRandomNameCard(long times) {
         List<IndexQuery> indexQuery = generatorUtility.buildBulkIndexingQueries(times);
-        List<String> docIds = null;
+        List<String> docIds = new LinkedList<>();
         String index = esConfiguration.getElasticSearchIndex();
 
         try {

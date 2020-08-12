@@ -1,6 +1,7 @@
 package com.micro.namecard;
 
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,14 +21,12 @@ public class EsConfiguration extends AbstractElasticsearchConfiguration {
     @Value(value = "${es.job.index.name}")
     private String elasticSearchJobIndex;
 
-    @Value(value = "${data.generator.limit}")
-    private int syncLimit;
-
     /**
      * Elastic Search Client Configuration and Creation.
      */
     @Override
     @Bean
+    @Qualifier("esClient")
     public RestHighLevelClient elasticsearchClient() {
         ClientConfiguration clientConfiguration = ClientConfiguration.builder()
                 .connectedTo(elasticBootServer)
@@ -40,9 +39,7 @@ public class EsConfiguration extends AbstractElasticsearchConfiguration {
         return this.elasticSearchIndex;
     }
 
-    public int getSyncLimit() {
-        return this.syncLimit;
-    }
+
 
     public String getElasticSearchJobIndex(){
         return this.elasticSearchJobIndex;
