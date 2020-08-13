@@ -1,6 +1,6 @@
 package com.micro.namecard.utils;
 
-import com.micro.namecard.dto.NameCardDTO;
+import com.micro.namecard.dto.NameCard;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -844,12 +844,12 @@ public class NameUtils {
     public static final int MIN_AGE = 18;
 
 
-    public NameCardDTO createRandomNameCard() {
+    public NameCard createRandomNameCard() {
         Random r = new Random();
         int age = r.nextInt((MAX_AGE - MIN_AGE) + 1) + MIN_AGE;
         int adj = r.nextInt(ADJ_LENGTH - 1);
         int person = r.nextInt(NAME - 1);
-        return new NameCardDTO(NameUtils.adjective[adj] + " " + NameUtils.person[person], String.valueOf(age));
+        return new NameCard(NameUtils.adjective[adj] + " " + NameUtils.person[person], String.valueOf(age));
     }
 
 }
