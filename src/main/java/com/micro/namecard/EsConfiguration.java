@@ -11,7 +11,6 @@ import org.springframework.data.elasticsearch.config.AbstractElasticsearchConfig
 
 @Configuration
 public class EsConfiguration extends AbstractElasticsearchConfiguration {
-
     @Value(value = "${es.bootstrap.server}")
     private String elasticBootServer;
 
@@ -38,8 +37,6 @@ public class EsConfiguration extends AbstractElasticsearchConfiguration {
     public String getElasticSearchIndex() {
         return this.elasticSearchIndex;
     }
-
-
 
     public String getElasticSearchJobIndex(){
         return this.elasticSearchJobIndex;

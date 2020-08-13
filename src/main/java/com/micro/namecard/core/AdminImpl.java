@@ -26,17 +26,17 @@ public class AdminImpl {
     @Autowired
     private EsConfiguration esConfiguration;
 
-    public List<String> saveMultipleRandomNameCard(long times) {
-        List<IndexQuery> indexQuery = generatorUtility.buildBulkIndexingQueries(times);
+    public List<String> indexRandomNameCard(long times) {
         List<String> docIds = new LinkedList<>();
         String index = esConfiguration.getElasticSearchIndex();
+        List<IndexQuery> indexQuery = generatorUtility.buildBulkIndexingQueries(times);
 
         try {
             docIds = elasticsearchOperations.bulkIndex(indexQuery, IndexCoordinates.of(index));
         } catch (Exception e) {
             log.error("Error to load data into Elastic Search.");
         }
-        
+
         return docIds;
     }
 }

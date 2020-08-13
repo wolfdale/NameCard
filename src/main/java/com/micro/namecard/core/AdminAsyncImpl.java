@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 
 @Component
@@ -20,12 +19,30 @@ public class AdminAsyncImpl {
     @Autowired
     DataLoaderJob job;
 
-    public String loadDataAsync(int count) throws IOException {
+    /**
+     * Index random NameCard Async.
+     *
+     * @param count - Number of documents to indexed
+     * @return jobId - Async Job Id
+     */
+    public String indexRandomNameCardAsync(long count) {
         String jobId = createJobId();
-        job.loadDataIntoElasticSearch(jobId, count);
+
+        try {
+            job.loadDataIntoElasticSearch(jobId, count);
+        } catch (Exception ex){
+            // ToDo - Need better error handling
+            log.error("Unable to perform indexing at this moment.");
+        }
+
         return jobId;
     }
 
+    /**
+     * Creates a Job ID.
+     *
+     * @return Job Id
+     */
     private String createJobId() {
         SecureRandom random = new SecureRandom();
         int num = random.nextInt(100000);

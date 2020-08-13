@@ -38,12 +38,12 @@ public class AdminOps {
      *
      * @return IDs of Document Created
      */
-    @PutMapping("/init/{times}")
-    public ResponseEntity elasticSearchInitData(@PathVariable("times") Integer times) throws IOException {
-        if (appConfig.getSyncLimit() > times) {
-            return ResponseEntity.ok().body(adminOps.saveMultipleRandomNameCard(times));
+    @PutMapping("/init/{count}")
+    public ResponseEntity elasticSearchInitData(@PathVariable("count") Long count) {
+        if (appConfig.getSyncLimit() > count) {
+            return ResponseEntity.ok().body(adminOps.indexRandomNameCard(count));
         } else {
-            return ResponseEntity.ok().body(asyncAdminOps.loadDataAsync(times));
+            return ResponseEntity.ok().body(asyncAdminOps.indexRandomNameCardAsync(count));
         }
 
     }

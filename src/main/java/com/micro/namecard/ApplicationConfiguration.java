@@ -9,10 +9,8 @@ import java.util.concurrent.Executor;
 
 @Configuration
 public class ApplicationConfiguration {
-
     @Value(value = "${bulk.data.page.size}")
     private long pageSize;
-
 
     @Value(value = "${data.generator.limit}")
     private int syncLimit;

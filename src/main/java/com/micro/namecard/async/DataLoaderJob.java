@@ -3,7 +3,6 @@ package com.micro.namecard.async;
 import com.micro.namecard.ApplicationConfiguration;
 import com.micro.namecard.EsConfiguration;
 import com.micro.namecard.core.AdminImpl;
-import com.micro.namecard.dto.JobStatus;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateRequest;
@@ -41,11 +40,13 @@ public class DataLoaderJob {
     RestHighLevelClient client;
 
     @Async
-    public void loadDataIntoElasticSearch(String jobId, int count) throws IOException {
-        log.info("Processing data in bakground. Total count : {} Page Size : {}", count, appConfig.getPageSize());
+    public void loadDataIntoElasticSearch(String jobId, long count) throws IOException {
+        log.info("Processing data in background with total count : {} & page Size : {}", count,
+                appConfig.getPageSize());
 
         long pageSize = appConfig.getPageSize();
         String jobIndex = esConfig.getElasticSearchJobIndex();
+
         long numberOfPages = 0;
 
         if (count % pageSize == 0) {
@@ -54,10 +55,9 @@ public class DataLoaderJob {
             numberOfPages = count / pageSize + 1;
         }
 
-        log.info("Total Number of pages {}", numberOfPages);
+        log.debug("Total Number of pages {}", numberOfPages);
 
         // Create the job status document inside 'jobstatus' index
-        JobStatus js = new JobStatus(jobId);
         Map<String, Object> json = new HashMap<String, Object>();
         json.put("jobId", jobId);
         IndexRequest indexRequest = new IndexRequest().id(jobId).index(jobIndex).source(
@@ -65,18 +65,18 @@ public class DataLoaderJob {
 
         RequestOptions rq = RequestOptions.DEFAULT;
         IndexResponse jobStatusDocument = client.index(indexRequest, rq);
-        log.info("Job status document created with {}", jobStatusDocument.toString());
-
+        log.debug("Job status document created with {}", jobStatusDocument.toString());
         for (int i = 1; i <= numberOfPages; i++) {
             // This will persist 1000 Name cars in 'namecard' index
-            List<String> docIds = adminImpl.saveMultipleRandomNameCard(pageSize);
+            List<String> docIds = adminImpl.indexRandomNameCard(pageSize);
 
             // Update the Job status in 'jobstatus' index
             Map<String, List<String>> pageDoc = new HashMap<>();
             pageDoc.put(Integer.toString(i), docIds);
             UpdateRequest updateRequest = new UpdateRequest().id(jobId).index(jobIndex).doc(pageDoc, XContentType.JSON);
             UpdateResponse res = client.update(updateRequest, rq);
-            log.info("Job status document Updated with {}", res.toString());
+            log.debug("Job status document Updated with {}", res.toString());
         }
+
     }
 }

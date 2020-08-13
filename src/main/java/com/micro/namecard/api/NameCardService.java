@@ -25,7 +25,6 @@ public class NameCardService {
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
 
-
     @Autowired
     private NameUtils randomNameCard;
 
@@ -63,6 +62,4 @@ public class NameCardService {
 
         return listOfNameCard;
     }
-
-
 }
